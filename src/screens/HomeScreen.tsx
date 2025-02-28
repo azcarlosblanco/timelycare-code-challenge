@@ -9,12 +9,14 @@ import { LoadingSpinner } from '../components/LoadingSpinner';
 import { ErrorMessage } from '../components/ErrorMessage';
 import { Movie } from '../types/movie';
 import { useDebounce } from '../hooks/useDebounce';
+import { useNetworkStatus } from '../hooks/useNetworkStatus';
 
 export const HomeScreen: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const debouncedSearchTerm = useDebounce(searchTerm, 500); // 500ms delay
   const dispatch = useDispatch<AppDispatch>();
   const { searchResults, loading, error } = useSelector((state: RootState) => state.movies);
+  const isConnected = useNetworkStatus();
 
   useEffect(() => {
     return () => {
@@ -41,6 +43,13 @@ export const HomeScreen: React.FC = () => {
   const renderItem: ListRenderItem<Movie> = ({ item }) => <MovieCard movie={item} />;
 
   const renderContent = (): React.ReactElement => {
+    if (!isConnected) {
+      return <ErrorMessage 
+        message="No internet connection. Please check your network settings." 
+        onRetry={handleRetry}
+      />;
+    }
+
     if (loading) {
       return <LoadingSpinner />;
     }
