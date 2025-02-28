@@ -2,11 +2,8 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { theme } from '../utils/theme';
+import { ErrorMessageProps } from '../types/components';
 
-interface ErrorMessageProps {
-  message: string;
-  onRetry?: () => void;
-}
 
 export const ErrorMessage: React.FC<ErrorMessageProps> = ({ message, onRetry }) => (
   <View style={styles.container}>

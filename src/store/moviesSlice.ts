@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { Movie, SearchResponse } from '../types/movie';
 import axios from 'axios';
 import { API_CONSTANTS } from '../utils/constants';
+import { MoviesState } from '../types/movies';
 
 export const searchMovies = createAsyncThunk(
   'movies/search',
@@ -24,13 +25,6 @@ export const searchMovies = createAsyncThunk(
     }
   }
 );
-
-interface MoviesState {
-  searchResults: Movie[];
-  favorites: Movie[];
-  loading: boolean;
-  error: string | null;
-}
 
 const initialState: MoviesState = {
   searchResults: [],

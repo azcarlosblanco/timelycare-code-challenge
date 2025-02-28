@@ -4,11 +4,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Movie } from '../types/movie';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToFavorites, removeFromFavorites } from '../store/moviesSlice';
-import { RootState } from '../store/store';
-
-interface MovieCardProps {
-  movie: Movie;
-}
+import { RootState } from '../types/store';
+import { MovieCardProps } from '../types/components';
 
 export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   const dispatch = useDispatch();

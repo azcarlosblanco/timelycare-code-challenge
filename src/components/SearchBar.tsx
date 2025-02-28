@@ -1,11 +1,7 @@
 import React from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
-interface SearchBarProps {
-  value: string;
-  onChange: (text: string) => void;
-}
+import { SearchBarProps } from '../types/components';
 
 export const SearchBar: React.FC<SearchBarProps> = ({ value, onChange }) => {
   return (

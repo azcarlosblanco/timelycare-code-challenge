@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
-import { RootState } from '../store/store';
+import { RootState } from '../types/store';
 import { MovieCard } from '../components/MovieCard';
 
 export const FavoritesScreen = () => {
