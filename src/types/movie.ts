@@ -7,7 +7,8 @@ export interface Movie {
 }
 
 export interface SearchResponse {
-  Search: Movie[];
-  totalResults: string;
+  Search?: Movie[];
   Response: string;
+  Error?: string;
+  totalResults?: string;
 }

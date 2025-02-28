@@ -5,14 +5,23 @@ import { API_CONSTANTS } from '../utils/constants';
 
 export const searchMovies = createAsyncThunk(
   'movies/search',
-  async (searchTerm: string) => {
-    const response = await axios.get<SearchResponse>(
-      `${API_CONSTANTS.BASE_URL}?apikey=${API_CONSTANTS.API_KEY}&s=${searchTerm}`
-    );
-    if (response.data.Response === 'False') {
-      throw new Error('No movies found');
+  async (searchTerm: string, { rejectWithValue }) => {
+    try {
+      const response = await axios.get<SearchResponse>(
+        `${API_CONSTANTS.BASE_URL}?apikey=${API_CONSTANTS.API_KEY}&s=${searchTerm}`
+      );
+      
+      if (response.data.Response === 'False') {
+        return rejectWithValue(response.data.Error || 'No movies found');
+      }
+      
+      return response.data.Search || [];
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(error.response?.data?.Error || 'Network error occurred');
+      }
+      return rejectWithValue('An unexpected error occurred');
     }
-    return response.data.Search || [];
   }
 );
 
@@ -60,7 +69,7 @@ const moviesSlice = createSlice({
       .addCase(searchMovies.rejected, (state, action) => {
         state.loading = false;
         state.searchResults = [];
-        state.error = action.error.message || 'An error occurred';
+        state.error = (action.payload as string) || 'An error occurred';
       });
   },
 });

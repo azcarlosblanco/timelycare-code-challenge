@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { View, StyleSheet, FlatList } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { searchMovies, clearError } from '../store/moviesSlice';
 import { RootState, AppDispatch } from '../store/store';
 import { MovieCard } from '../components/MovieCard';
 import { SearchBar } from '../components/SearchBar';
+import { LoadingSpinner } from '../components/LoadingSpinner';
+import { ErrorMessage } from '../components/ErrorMessage';
 
 export const HomeScreen = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -24,33 +26,41 @@ export const HomeScreen = () => {
     }
   };
 
+  const handleRetry = () => {
+    if (searchTerm.length >= 3) {
+      dispatch(searchMovies(searchTerm));
+    }
+  };
+
+  const renderContent = () => {
+    if (loading) {
+      return <LoadingSpinner />;
+    }
+
+    if (error) {
+      return <ErrorMessage message={error} onRetry={handleRetry} />;
+    }
+
+    if (searchResults.length === 0 && searchTerm.length >= 3) {
+        debugger
+      return <ErrorMessage message="No movies found" />;
+    }
+
+    return (
+      <FlatList
+        data={searchResults}
+        keyExtractor={(item) => item.imdbID}
+        renderItem={({ item }) => <MovieCard movie={item} />}
+        numColumns={2}
+        contentContainerStyle={styles.gridContainer}
+      />
+    );
+  };
+
   return (
     <View style={styles.container}>
       <SearchBar value={searchTerm} onChange={handleSearch} />
-      
-      {error && (
-        <View style={styles.errorContainer}>
-          <Text style={styles.errorText}>{error}</Text>
-        </View>
-      )}
-      
-      {loading ? (
-        <View style={styles.centerContainer}>
-          <Text>Loading...</Text>
-        </View>
-      ) : searchResults.length === 0 && !error && searchTerm.length >= 3 ? (
-        <View style={styles.centerContainer}>
-          <Text style={styles.noResultsText}>No movies found</Text>
-        </View>
-      ) : (
-        <FlatList
-          data={searchResults}
-          keyExtractor={(item) => item.imdbID}
-          renderItem={({ item }) => <MovieCard movie={item} />}
-          numColumns={2}
-          contentContainerStyle={styles.gridContainer}
-        />
-      )}
+      {renderContent()}
     </View>
   );
 };
@@ -60,26 +70,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
-  errorContainer: {
-    backgroundColor: '#ffebee',
-    padding: 12,
-    borderRadius: 8,
-    marginBottom: 16,
-  },
-  errorText: {
-    color: '#c62828',
-    textAlign: 'center',
-  },
-  centerContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  noResultsText: {
-    fontSize: 16,
-    color: '#666',
-  },
   gridContainer: {
     padding: 8,
-  }
+  },
 });
