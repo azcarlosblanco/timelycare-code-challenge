@@ -10,6 +10,7 @@ import { ErrorMessage } from '../components/ErrorMessage';
 import { Movie } from '../types/movie';
 import { useDebounce } from '../hooks/useDebounce';
 import { useNetworkStatus } from '../hooks/useNetworkStatus';
+import { FadeInView } from '../components/FadeInView';
 
 export const HomeScreen: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -55,21 +56,31 @@ export const HomeScreen: React.FC = () => {
     }
 
     if (error) {
-      return <ErrorMessage message={error} onRetry={handleRetry} />;
+      return (
+        <FadeInView>
+          <ErrorMessage message={error} onRetry={handleRetry} />
+        </FadeInView>
+      );
     }
 
     if (searchResults.length === 0 && searchTerm.length >= 3) {
-      return <ErrorMessage message="No movies found" />;
+      return (
+        <FadeInView>
+          <ErrorMessage message="No movies found" />
+        </FadeInView>
+      );
     }
 
     return (
-      <FlatList<Movie>
-        data={searchResults}
-        keyExtractor={(item) => item.imdbID}
-        renderItem={renderItem}
-        numColumns={2}
-        contentContainerStyle={styles.gridContainer}
-      />
+      <FadeInView>
+        <FlatList<Movie>
+          data={searchResults}
+          keyExtractor={(item) => item.imdbID}
+          renderItem={renderItem}
+          numColumns={2}
+          contentContainerStyle={styles.gridContainer}
+        />
+      </FadeInView>
     );
   };
 

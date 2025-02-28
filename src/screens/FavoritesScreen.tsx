@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../types/store';
 import { MovieCard } from '../components/MovieCard';
 import { Movie } from '../types/movie';
+import { FadeInView } from '../components/FadeInView';
 
 export const FavoritesScreen: React.FC = () => {
   const favorites = useSelector((state: RootState) => state.movies.favorites);
@@ -15,7 +16,9 @@ export const FavoritesScreen: React.FC = () => {
       <Text style={styles.title}>My Favorite Movies</Text>
       
       {favorites.length === 0 ? (
-        <Text style={styles.emptyText}>No favorite movies yet</Text>
+        <FadeInView>
+          <Text style={styles.emptyText}>No favorite movies yet</Text>
+        </FadeInView>
       ) : (
         <FlatList<Movie>
           data={favorites}
