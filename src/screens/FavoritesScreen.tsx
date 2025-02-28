@@ -1,11 +1,14 @@
 import React from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, FlatList, StyleSheet, ListRenderItem } from 'react-native';
 import { useSelector } from 'react-redux';
 import { RootState } from '../types/store';
 import { MovieCard } from '../components/MovieCard';
+import { Movie } from '../types/movie';
 
-export const FavoritesScreen = () => {
+export const FavoritesScreen: React.FC = () => {
   const favorites = useSelector((state: RootState) => state.movies.favorites);
+
+  const renderItem: ListRenderItem<Movie> = ({ item }) => <MovieCard movie={item} />;
 
   return (
     <View style={styles.container}>
@@ -14,10 +17,10 @@ export const FavoritesScreen = () => {
       {favorites.length === 0 ? (
         <Text style={styles.emptyText}>No favorite movies yet</Text>
       ) : (
-        <FlatList
+        <FlatList<Movie>
           data={favorites}
           keyExtractor={(item) => item.imdbID}
-          renderItem={({ item }) => <MovieCard movie={item} />}
+          renderItem={renderItem}
           numColumns={2}
           contentContainerStyle={styles.gridContainer}
         />

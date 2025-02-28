@@ -1,8 +1,9 @@
 import React from 'react';
 import { ActivityIndicator, View, StyleSheet } from 'react-native';
 import { theme } from '../utils/theme';
+import { LoadingSpinnerProps } from '../types/components';
 
-export const LoadingSpinner = () => (
+export const LoadingSpinner: React.FC<LoadingSpinnerProps> = () => (
   <View style={styles.container}>
     <ActivityIndicator size="large" color={theme.colors.primary} />
   </View>

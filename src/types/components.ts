@@ -12,4 +12,7 @@ export interface ErrorMessageProps {
 
 export interface MovieCardProps {
   movie: Movie;
+}
+
+export interface LoadingSpinnerProps {
 } 
