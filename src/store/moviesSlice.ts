@@ -47,6 +47,9 @@ const moviesSlice = createSlice({
     },
     clearError: (state) => {
       state.error = null;
+    },
+    setFavorites: (state, action) => {
+      state.favorites = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -68,5 +71,5 @@ const moviesSlice = createSlice({
   },
 });
 
-export const { addToFavorites, removeFromFavorites, clearError } = moviesSlice.actions;
+export const { addToFavorites, removeFromFavorites, clearError, setFavorites } = moviesSlice.actions;
 export default moviesSlice.reducer;

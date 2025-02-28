@@ -11,8 +11,10 @@ import { Movie } from '../types/movie';
 import { useDebounce } from '../hooks/useDebounce';
 import { useNetworkStatus } from '../hooks/useNetworkStatus';
 import { FadeInView } from '../components/FadeInView';
+import { usePersistentFavorites } from '../hooks/usePersistentFavorites';
 
 export const HomeScreen: React.FC = () => {
+  usePersistentFavorites();
   const [searchTerm, setSearchTerm] = useState<string>('');
   const debouncedSearchTerm = useDebounce(searchTerm, 500); // 500ms delay
   const dispatch = useDispatch<AppDispatch>();
