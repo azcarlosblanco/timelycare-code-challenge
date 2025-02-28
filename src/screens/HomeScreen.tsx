@@ -8,9 +8,11 @@ import { SearchBar } from '../components/SearchBar';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { ErrorMessage } from '../components/ErrorMessage';
 import { Movie } from '../types/movie';
+import { useDebounce } from '../hooks/useDebounce';
 
 export const HomeScreen: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const debouncedSearchTerm = useDebounce(searchTerm, 500); // 500ms delay
   const dispatch = useDispatch<AppDispatch>();
   const { searchResults, loading, error } = useSelector((state: RootState) => state.movies);
 
@@ -20,11 +22,14 @@ export const HomeScreen: React.FC = () => {
     };
   }, [dispatch]);
 
+  useEffect(() => {
+    if (debouncedSearchTerm.length >= 2) {
+      dispatch(searchMovies(debouncedSearchTerm));
+    }
+  }, [debouncedSearchTerm, dispatch]);
+
   const handleSearch = (value: string): void => {
     setSearchTerm(value);
-    if (value.length >= 3) {
-      dispatch(searchMovies(value));
-    }
   };
 
   const handleRetry = (): void => {
