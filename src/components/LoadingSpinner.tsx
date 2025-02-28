@@ -4,7 +4,13 @@ import { theme } from '../utils/theme';
 import { LoadingSpinnerProps } from '../types/components';
 
 export const LoadingSpinner: React.FC<LoadingSpinnerProps> = () => (
-  <View style={styles.container}>
+  <View 
+    style={styles.container}
+    accessible={true}
+    accessibilityRole="progressbar"
+    accessibilityLabel="Loading movies"
+    accessibilityLiveRegion="polite"
+  >
     <ActivityIndicator size="large" color={theme.colors.primary} />
   </View>
 );

@@ -5,14 +5,27 @@ import { SearchBarProps } from '../types/components';
 
 export const SearchBar: React.FC<SearchBarProps> = ({ value, onChange }) => {
   return (
-    <View style={styles.container}>
-      <Icon name="search" size={24} color="#666" style={styles.icon} />
+    <View 
+      style={styles.container}
+      accessible={true}
+      accessibilityRole="search"
+    >
+      <Icon 
+        name="search" 
+        size={24} 
+        color="#666" 
+        style={styles.icon}
+        importantForAccessibility="no"
+      />
       <TextInput
         style={styles.input}
         value={value}
         onChangeText={onChange}
         placeholder="Search movies..."
         placeholderTextColor="#666"
+        accessibilityLabel="Search movies"
+        accessibilityHint="Enter a movie title to search"
+        accessibilityRole="search"
       />
     </View>
   );

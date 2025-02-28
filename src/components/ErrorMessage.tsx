@@ -4,13 +4,29 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { theme } from '../utils/theme';
 import { ErrorMessageProps } from '../types/components';
 
-
 export const ErrorMessage: React.FC<ErrorMessageProps> = ({ message, onRetry }) => (
-  <View style={styles.container}>
-    <Icon name="error-outline" size={24} color={theme.colors.secondary} />
+  <View 
+    style={styles.container}
+    accessible={true}
+    accessibilityRole="alert"
+    accessibilityLabel={`Error: ${message}`}
+  >
+    <Icon 
+      name="error-outline" 
+      size={24} 
+      color={theme.colors.secondary}
+      importantForAccessibility="no" 
+    />
     <Text style={styles.text}>{message}</Text>
     {onRetry && (
-      <TouchableOpacity style={styles.retryButton} onPress={onRetry}>
+      <TouchableOpacity 
+        style={styles.retryButton} 
+        onPress={onRetry}
+        accessible={true}
+        accessibilityRole="button"
+        accessibilityLabel="Retry search"
+        accessibilityHint="Double tap to try searching again"
+      >
         <Text style={styles.retryText}>Retry</Text>
       </TouchableOpacity>
     )}

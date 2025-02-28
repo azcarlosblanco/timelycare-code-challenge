@@ -21,12 +21,40 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   };
 
   return (
-    <View style={styles.card}>
-      <Image source={{ uri: movie.Poster }} style={styles.image} />
+    <View 
+      style={styles.card}
+      accessible={true}
+      accessibilityRole="button"
+      accessibilityLabel={`Movie: ${movie.Title}, Released in ${movie.Year}`}
+    >
+      <Image 
+        source={{ uri: movie.Poster }} 
+        style={styles.image}
+        accessible={true}
+        accessibilityRole="image"
+        accessibilityLabel={`Movie poster for ${movie.Title}`}
+      />
       <View style={styles.content}>
-        <Text style={styles.title}>{movie.Title}</Text>
-        <Text style={styles.year}>{movie.Year}</Text>
-        <TouchableOpacity onPress={handleFavoriteClick} style={styles.favoriteButton}>
+        <Text 
+          style={styles.title}
+          accessibilityRole="header"
+        >
+          {movie.Title}
+        </Text>
+        <Text 
+          style={styles.year}
+          accessibilityLabel={`Released in ${movie.Year}`}
+        >
+          {movie.Year}
+        </Text>
+        <TouchableOpacity 
+          onPress={handleFavoriteClick} 
+          style={styles.favoriteButton}
+          accessible={true}
+          accessibilityRole="button"
+          accessibilityLabel={isFavorite ? `Remove ${movie.Title} from favorites` : `Add ${movie.Title} to favorites`}
+          accessibilityHint={isFavorite ? "Double tap to remove from favorites" : "Double tap to add to favorites"}
+        >
           <Icon 
             name={isFavorite ? "favorite" : "favorite-border"} 
             size={24} 
